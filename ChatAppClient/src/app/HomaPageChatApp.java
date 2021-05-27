@@ -5,6 +5,9 @@
  */
 package app;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+
 /**
  *
  * @author MERT
@@ -14,10 +17,12 @@ public class HomaPageChatApp extends javax.swing.JFrame {
     /**
      * Creates new form HomaPageChatApp
      */
-    
     public static HomaPageChatApp playGame;
+    public Thread timer;
+    public DefaultListModel jList3 = new DefaultListModel();
+
     public HomaPageChatApp() {
-        
+        JList list = new JList(jList3);
         initComponents();
     }
 
@@ -186,10 +191,10 @@ public class HomaPageChatApp extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JList<String> jList2;
-    private javax.swing.JList<String> jList3;
+    public javax.swing.JList<String> jList3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextField2;
+    public javax.swing.JTextField jTextField2;
     public javax.swing.JTextField txt_name;
     // End of variables declaration//GEN-END:variables
 }

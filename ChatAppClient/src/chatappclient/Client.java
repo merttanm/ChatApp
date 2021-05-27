@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import static chatappclient.Client.sInput;
 import app.HomaPageChatApp;
+import java.awt.ComponentOrientation;
 
 /**
  *
@@ -31,22 +32,19 @@ class ListenClient extends Thread {
                         break;
                     case RivalConnected:
                         String name = receiver.content.toString(); // İsim mesajı gönderimi
-                        HomaPageChatApp.playGame.txt_rival.setText(name);
-                        HomaPageChatApp.playGame.jLabel5.setText(name);
-                        HomaPageChatApp.playGame.btn_zar.setEnabled(true);
-                        HomaPageChatApp.playGame.btn_zar1.setEnabled(true); // ekledim
+                        HomaPageChatApp.playGame.jList3.applyComponentOrientation(ComponentOrientation.UNKNOWN);
+                               
                         HomaPageChatApp.playGame.timer.start();
-                        HomaPageChatApp.playGame.gameReturn.start();
 
                         break;
                     case Disconnect:
                         break;
                     case Text:
-                        HomaPageChatApp.playGame.jTextField18.setText(receiver.content.toString());
+                        // HomaPageChatApp.playGame.jTextField18.setText(receiver.content.toString());
                         break;
-                  
+
                     case Selected:
-                        HomaPageChatApp.playGame.RivalSelection = (int) receiver.content;
+                        // HomaPageChatApp.playGame.RivalSelection = (int) receiver.content;
                         break;
 
                     case Bitis:
