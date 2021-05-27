@@ -14,7 +14,10 @@ public class HomaPageChatApp extends javax.swing.JFrame {
     /**
      * Creates new form HomaPageChatApp
      */
+    
+    public static HomaPageChatApp playGame;
     public HomaPageChatApp() {
+        
         initComponents();
     }
 
@@ -28,7 +31,7 @@ public class HomaPageChatApp extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        txt_name = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList<>();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -52,7 +55,7 @@ public class HomaPageChatApp extends javax.swing.JFrame {
             }
         });
 
-        jTextField1.setBackground(new java.awt.Color(255, 51, 51));
+        txt_name.setBackground(new java.awt.Color(255, 51, 51));
 
         jList2.setBackground(new java.awt.Color(255, 51, 51));
         jScrollPane2.setViewportView(jList2);
@@ -91,7 +94,7 @@ public class HomaPageChatApp extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addComponent(txt_name, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -116,7 +119,7 @@ public class HomaPageChatApp extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -186,7 +189,7 @@ public class HomaPageChatApp extends javax.swing.JFrame {
     private javax.swing.JList<String> jList3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    public javax.swing.JTextField txt_name;
     // End of variables declaration//GEN-END:variables
 }
