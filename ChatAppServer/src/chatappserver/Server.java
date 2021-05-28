@@ -63,7 +63,7 @@ public class Server {
     public static ArrayList<SClient> Clients = new ArrayList<>();
 
     //semafor nesnesi
-    public static Semaphore pairTwo = new Semaphore(10, true);
+    public static Semaphore pairTwo = new Semaphore(2, true);
 
     // başlaşmak için sadece port numarası veriyoruz
     public static void Start(int openport) {

@@ -127,7 +127,7 @@ public class SClient {
 
         public void run() {
             //client bağlı ve eşleşmemiş olduğu durumda dön
-            while (TheClient.soket.isConnected() && TheClient.paired == false) {
+            while (TheClient.soket.isConnected() && TheClient.paired == false  ) { 
                 try {
                     //lock mekanizması
                     //sadece bir client içeri grebilir

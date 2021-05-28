@@ -38,7 +38,7 @@ class Listen extends Thread {
                         //         HomaPageChatApp.ThisGame.txt_rival_name.setText(name);
                         //           HomaPageChatApp.ThisGame.btn_pick.setEnabled(true);
                         //                HomaPageChatApp.ThisGame.btn_send_message.setEnabled(true);
-                        HomaPageChatApp.ThisGame.tmr_slider.start();
+                    //    HomaPageChatApp.ThisGame.tmr_slider.start();
 
                         HomaPageChatApp.ThisGame.jTextArea2.setText(received.content.toString());
 
