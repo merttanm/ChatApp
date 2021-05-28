@@ -5,25 +5,61 @@
  */
 package app;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
+import java.awt.Image;
+
+import java.io.IOException;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import chatappclient.Client;
+
 
 /**
  *
- * @author MERT
+ * @author INSECT
  */
 public class HomaPageChatApp extends javax.swing.JFrame {
 
-    /**
-     * Creates new form HomaPageChatApp
-     */
-    public static HomaPageChatApp playGame;
-    public Thread timer;
-    public DefaultListModel jList3 = new DefaultListModel();
+    //framedeki komponentlere erişim için satatik oyun değişkeni
+    public static HomaPageChatApp ThisGame;
+    //ekrandaki resim değişimi için timer yerine thread
+    public Thread tmr_slider;
+    //karşı tarafın seçimi seçim -1 deyse seçilmemiş
+    public int RivalSelection = -1;
+    //benim seçimim seçim -1 deyse seçilmemiş
+    public int myselection = -1;
+    Random rand;
 
+    /**
+     * Creates new form Game
+     */
+    @SuppressWarnings("empty-statement")
     public HomaPageChatApp() {
-        JList list = new JList(jList3);
         initComponents();
+        ThisGame = this;
+        rand = new Random();
+
+        // resimleri döndürmek için tread aynı zamanda oyun bitiminide takip ediyor
+        tmr_slider = new Thread(() -> {
+            //soket bağlıysa dönsün
+            while (Client.socket.isConnected()) {
+              
+            }
+        });
+
+    }
+
+    public void Reset() {
+        if (Client.socket != null) {
+            if (Client.socket.isConnected()) {
+                Client.Stop();
+            }
+        }
+        btn_connect.setEnabled(true);
+     //   btn_send_message.setEnabled(false);
+    
     }
 
     /**
@@ -35,115 +71,139 @@ public class HomaPageChatApp extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         txt_name = new javax.swing.JTextField();
+        btn_connect = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        jTextArea1 = new javax.swing.JTextArea();
+        jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList3 = new javax.swing.JList<>();
-        jTextField2 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        jTextArea2 = new javax.swing.JTextArea();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        btn_connect1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setAutoRequestFocus(false);
-        setBackground(new java.awt.Color(0, 0, 0));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setBackground(new java.awt.Color(255, 51, 51));
+        txt_name.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_nameActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txt_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 100, 30));
+
+        btn_connect.setBackground(new java.awt.Color(255, 0, 0));
+        btn_connect.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 12)); // NOI18N
+        btn_connect.setText("Odaya Gır");
+        btn_connect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_connectActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_connect, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 330, 120, 30));
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane2.setViewportView(jTextArea1);
+
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 130, 180, 190));
+        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 100, 30));
+
+        jButton1.setBackground(new java.awt.Color(255, 0, 0));
         jButton1.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 12)); // NOI18N
-        jButton1.setText("Kayıt ol");
+        jButton1.setText("Sohbet Odası Olustur");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, 160, 30));
 
-        txt_name.setBackground(new java.awt.Color(255, 51, 51));
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jScrollPane3.setViewportView(jTextArea2);
 
-        jList2.setBackground(new java.awt.Color(255, 51, 51));
-        jScrollPane2.setViewportView(jList2);
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 180, 190));
 
-        jList3.setBackground(new java.awt.Color(255, 51, 51));
-        jScrollPane3.setViewportView(jList3);
+        jLabel3.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel3.setText("Chat Odaları");
+        jLabel3.setToolTipText("");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 110, 100, 20));
 
-        jTextField2.setBackground(new java.awt.Color(255, 51, 51));
+        jLabel4.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel4.setText("Çevrimiçi Üyeler");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, -1, -1));
 
-        jButton2.setBackground(new java.awt.Color(255, 51, 51));
-        jButton2.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 12)); // NOI18N
-        jButton2.setText("Sohbet odası olustur");
+        jLabel5.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel5.setText("Nick");
+        jLabel5.setToolTipText("");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, -1, 20));
 
-        jLabel1.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel1.setText("Chat Odaları");
+        jLabel1.setText("Oda ismi");
         jLabel1.setToolTipText("");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 60, 30));
 
-        jLabel2.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel2.setText("Çevrimiçi Üyeler");
-
-        jButton3.setBackground(new java.awt.Color(255, 51, 51));
-        jButton3.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 12)); // NOI18N
-        jButton3.setText("Odaya Gir");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
-                                    .addComponent(txt_name, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addComponent(jLabel2)
-                                .addGap(76, 76, 76)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(txt_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
-                .addContainerGap(15, Short.MAX_VALUE))
-        );
+        btn_connect1.setBackground(new java.awt.Color(255, 0, 0));
+        btn_connect1.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 12)); // NOI18N
+        btn_connect1.setText("Kayıt Ol");
+        btn_connect1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_connect1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_connect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, 160, 30));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_connectActionPerformed
+
+//
+
+    }//GEN-LAST:event_btn_connectActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        //form kapanırken clienti durdur
+        Client.Stop();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void txt_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_nameActionPerformed
+
+    private void btn_connect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_connect1ActionPerformed
+        // TODO add your handling code here:
+        
+        
+        //bağlanılacak server ve portu veriyoruz
+        Client.Start("127.0.0.1", 2000);
+        //başlangıç durumları
+       // lbl_gamer1.setIcon(icons_left[0]);
+        btn_connect.setEnabled(false);
+        txt_name.setEnabled(false);
+      //  btn_pick.setEnabled(false);
+      //  btn_send_message.setEnabled(false);
+      //  rbtn_kagit.setEnabled(true);
+      //  rbtn_makas.setEnabled(true);
+       // rbtn_tas.setEnabled(true);
+        
+        
+    }//GEN-LAST:event_btn_connect1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -175,6 +235,9 @@ public class HomaPageChatApp extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(HomaPageChatApp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -185,16 +248,19 @@ public class HomaPageChatApp extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton btn_connect;
+    public javax.swing.JButton btn_connect1;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JList<String> jList2;
-    public javax.swing.JList<String> jList3;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    public javax.swing.JTextField jTextField2;
+    public javax.swing.JTextArea jTextArea1;
+    public javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextField jTextField1;
     public javax.swing.JTextField txt_name;
     // End of variables declaration//GEN-END:variables
 }
