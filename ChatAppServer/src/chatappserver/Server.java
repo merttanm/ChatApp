@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jankenponserver;
+package chatappserver;
 
 import app.Message;
 import java.io.IOException;
@@ -63,7 +63,7 @@ public class Server {
     public static ArrayList<SClient> Clients = new ArrayList<>();
 
     //semafor nesnesi
-    public static Semaphore pairTwo = new Semaphore(1, true);
+    public static Semaphore pairTwo = new Semaphore(10, true);
 
     // başlaşmak için sadece port numarası veriyoruz
     public static void Start(int openport) {

@@ -35,18 +35,18 @@ class Listen extends Thread {
                         break;
                     case RivalConnected:
                         String name = received.content.toString();
-               //         HomaPageChatApp.ThisGame.txt_rival_name.setText(name);
-             //           HomaPageChatApp.ThisGame.btn_pick.setEnabled(true);
-        //                HomaPageChatApp.ThisGame.btn_send_message.setEnabled(true);
+                        //         HomaPageChatApp.ThisGame.txt_rival_name.setText(name);
+                        //           HomaPageChatApp.ThisGame.btn_pick.setEnabled(true);
+                        //                HomaPageChatApp.ThisGame.btn_send_message.setEnabled(true);
                         HomaPageChatApp.ThisGame.tmr_slider.start();
-                        
-                         HomaPageChatApp.ThisGame.jTextArea2.setText(received.content.toString());
-   
+
+                        HomaPageChatApp.ThisGame.jTextArea2.setText(received.content.toString());
+
                         break;
                     case Disconnect:
                         break;
                     case Text:
-           //             HomaPageChatApp.ThisGame.txt_receive.setText(received.content.toString());
+                        //             HomaPageChatApp.ThisGame.txt_receive.setText(received.content.toString());
                         break;
                     case Selected:
                         HomaPageChatApp.ThisGame.RivalSelection = (int) received.content;
@@ -96,7 +96,7 @@ public class Client {
             Client.sOutput = new ObjectOutputStream(Client.socket.getOutputStream());
             Client.listenMe = new Listen();
             Client.listenMe.start();
-            
+
             //ilk mesaj olarak isim gönderiyorum
             Message msg = new Message(Message.Message_Type.Name);
             msg.content = HomaPageChatApp.ThisGame.txt_name.getText();
