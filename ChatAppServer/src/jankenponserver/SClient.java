@@ -127,12 +127,12 @@ public class SClient {
 
         public void run() {
             //client bağlı ve eşleşmemiş olduğu durumda dön
-            while (TheClient.soket.isConnected() && TheClient.paired == false) {
+            while (TheClient.soket.isConnected() && TheClient.paired == false && TheClient.paired == true) {
                 try {
                     //lock mekanizması
                     //sadece bir client içeri grebilir
                     //diğerleri release olana kadar bekler
-                    Server.pairTwo.acquire(1);
+                    Server.pairTwo.acquire(3);
                     
                     //client eğer eşleşmemişse gir
                     if (!TheClient.paired) {
