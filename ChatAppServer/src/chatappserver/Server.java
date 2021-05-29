@@ -19,27 +19,21 @@ import java.util.logging.Logger;
  *
  * @author INSECT
  */
-//client gelişini dinleme threadi
+
 class ServerThread extends Thread {
 
     public void run() {
-        //server kapanana kadar dinle
+
         while (!Server.serverSocket.isClosed()) {
             try {
                 Server.Display("Client Bekleniyor...");
-                // clienti bekleyen satır
-                //bir client gelene kadar bekler
                 Socket clientSocket = Server.serverSocket.accept();
-                //client gelirse bu satıra geçer
                 Server.Display("Client Geldi...");
-                //gelen client soketinden bir sclient nesnesi oluştur
-                //bir adet id de kendimiz verdik
+
                 SClient nclient = new SClient(clientSocket, Server.IdClient);
                 
                 Server.IdClient++;
-                //clienti listeye ekle.
                 Server.Clients.add(nclient);
-                //client mesaj dinlemesini başlat
                 nclient.listenThread.start();
 
             } catch (IOException ex) {
@@ -51,21 +45,17 @@ class ServerThread extends Thread {
 
 public class Server {
 
-    //server soketi eklemeliyiz
+    
     public static ServerSocket serverSocket;
     public static int IdClient = 0;
-    // Serverın dileyeceği port
     public static int port = 0;
-    //Serverı sürekli dinlemede tutacak thread nesnesi
     public static ServerThread runThread;
-    //public static PairingThread pairThread;
 
     public static ArrayList<SClient> Clients = new ArrayList<>();
 
     //semafor nesnesi
     public static Semaphore pairTwo = new Semaphore(2, true);
 
-    // başlaşmak için sadece port numarası veriyoruz
     public static void Start(int openport) {
         try {
             Server.port = openport;
@@ -85,8 +75,7 @@ public class Server {
 
     }
 
-    // serverdan clietlara mesaj gönderme
-    //clieti alıyor ve mesaj olluyor
+
     public static void Send(SClient cl, Message msg) {
 
         try {

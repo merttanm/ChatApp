@@ -3,9 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/MERT/Desktop/ChatApp/ChatAppServer/src/jankenponserver/ChatAppServer.java</file>
-            <file>file:/C:/Users/MERT/Desktop/ChatApp/ChatAppServer/src/jankenponserver/SClient.java</file>
-            <file>file:/C:/Users/MERT/Desktop/ChatApp/ChatAppServer/src/jankenponserver/Server.java</file>
+            <file>file:/C:/Users/MERT/Desktop/ChatApp/ChatAppServer/src/chatappserver/SClient.java</file>
+            <file>file:/C:/Users/MERT/Desktop/ChatApp/ChatAppServer/src/chatappserver/Server.java</file>
+            <file>file:/C:/Users/MERT/Desktop/ChatApp/ChatAppServer/src/chatappserver/ChatAppServer.java</file>
         </group>
     </open-files>
 </project-private>

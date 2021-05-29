@@ -23,13 +23,12 @@ import app.HomaPageChatApp;
 class Listen extends Thread {
 
     public void run() {
-        //soket bağlı olduğu sürece dön
+        
         while (Client.socket.isConnected()) {
             try {
-                //mesaj gelmesini bloking olarak dinyelen komut
+
                 Message received = (Message) (sInput.readObject());
-                //mesaj gelirse bu satıra geçer
-                //mesaj tipine göre yapılacak işlemi ayır.
+
                 switch (received.type) {
                     case Name:
                         break;
@@ -38,7 +37,7 @@ class Listen extends Thread {
                         //         HomaPageChatApp.ThisGame.txt_rival_name.setText(name);
                         //           HomaPageChatApp.ThisGame.btn_pick.setEnabled(true);
                         //                HomaPageChatApp.ThisGame.btn_send_message.setEnabled(true);
-                    //    HomaPageChatApp.ThisGame.tmr_slider.start();
+                        //    HomaPageChatApp.ThisGame.tmr_slider.start();
 
                         HomaPageChatApp.ThisGame.jTextArea2.setText(received.content.toString());
 
@@ -61,7 +60,6 @@ class Listen extends Thread {
             } catch (IOException ex) {
 
                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                //Client.Stop();
                 break;
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,14 +73,12 @@ class Listen extends Thread {
 
 public class Client {
 
-    //her clientın bir soketi olmalı
     public static Socket socket;
 
-    //verileri almak için gerekli nesne
     public static ObjectInputStream sInput;
-    //verileri göndermek için gerekli nesne
+
     public static ObjectOutputStream sOutput;
-    //serverı dinleme thredi 
+
     public static Listen listenMe;
 
     public static void Start(String ip, int port) {

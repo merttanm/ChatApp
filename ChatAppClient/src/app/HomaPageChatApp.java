@@ -40,9 +40,9 @@ public class HomaPageChatApp extends javax.swing.JFrame {
         ThisGame = this;
         rand = new Random();
 
-        // resimleri döndürmek için tread aynı zamanda oyun bitiminide takip ediyor
+
         tmr_slider = new Thread(() -> {
-            //soket bağlıysa dönsün
+
             while (Client.socket.isConnected()) {
 
             }
@@ -57,7 +57,7 @@ public class HomaPageChatApp extends javax.swing.JFrame {
             }
         }
         btn_connect.setEnabled(true);
-        //   btn_send_message.setEnabled(false);
+
 
     }
 
@@ -186,19 +186,12 @@ public class HomaPageChatApp extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_nameActionPerformed
 
     private void btn_connect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_connect1ActionPerformed
-        // TODO add your handling code here:
 
-        //bağlanılacak server ve portu veriyoruz
         Client.Start("127.0.0.1", 2000);
         //başlangıç durumları
         // lbl_gamer1.setIcon(icons_left[0]);
         btn_connect1.setEnabled(false);
         txt_name.setEnabled(false);
-        //  btn_pick.setEnabled(false);
-        //  btn_send_message.setEnabled(false);
-        //  rbtn_kagit.setEnabled(true);
-        //  rbtn_makas.setEnabled(true);
-        // rbtn_tas.setEnabled(true);
 
 
     }//GEN-LAST:event_btn_connect1ActionPerformed
