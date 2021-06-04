@@ -14,6 +14,10 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import chatappclient.Client;
+import java.io.BufferedReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  *
@@ -21,46 +25,113 @@ import chatappclient.Client;
  */
 public class HomaPageChatApp extends javax.swing.JFrame {
 
-    //framedeki komponentlere erişim için satatik oyun değişkeni
-    public static HomaPageChatApp ThisGame;
-    //ekrandaki resim değişimi için timer yerine thread
-    public Thread tmr_slider;
-    //karşı tarafın seçimi seçim -1 deyse seçilmemiş
-    public int RivalSelection = -1;
-    //benim seçimim seçim -1 deyse seçilmemiş
-    public int myselection = -1;
-    Random rand;
+    String Clientname, address = "localhost";
+    ArrayList<String> clients = new ArrayList();
+    int port_number = 1111;
+    Boolean isConnected = false;
 
-    /**
-     * Creates new form Game
-     */
+    Socket S;
+    BufferedReader reader;
+    PrintWriter writer;
+   
+
+    //XXXXXXXXXXXXXXXXXXXXXXXXX//
+    public void ListenThread() {
+        Thread IncomingReader = new Thread(new IncomingReader());
+        IncomingReader.start();
+    }
+
+    //XXXXXXXXXXXXXXXXXXXXXXXX//
+    public void clientAdd(String data) {
+        clients.add(data);
+    }
+
+    //XXXXXXXXXXXXXXXXXXXXXXX//
+    public void clientRemove(String data) {
+        jTextArea2.append(data + "is not online");
+    }
+    //XXXXXXXXXXXXXXXXXXXXXXXX//
+
+    public void writeclients() {
+        String[] temperoryList = new String[(clients.size())];
+        clients.toArray(temperoryList);
+        for (String token : temperoryList) {
+            //clients.append(token + "\n");   
+        }
+    }
+    //XXXXXXXXXXXXXXXXXXXXXXX//
+
+    public void send_Disconnect() {
+        String bye = (Clientname + ": :Disconnect");
+        {
+            try {
+                writer.println(bye);
+                writer.flush();
+            } catch (Exception ex) {
+                jTextArea2.append("Cloud has not sent disconnect message. \n");
+            }
+        }
+
+        //XXXXXXXXXXXXXXXXXXXXXXXX//
+        /**
+         *
+         */
+    }
+
+    public void Disconnect() {
+        try {
+            jTextArea2.append("Client is Disconnected. \n");
+            S.close();
+        } catch (Exception e) {
+            jTextArea2.append("Failed to disconnect the client. \n");
+        }
+        isConnected = false;
+        txt_name.setEditable(true);
+    }
+
     @SuppressWarnings("empty-statement")
     public HomaPageChatApp() {
         initComponents();
-        ThisGame = this;
-        rand = new Random();
-
-
-        tmr_slider = new Thread(() -> {
-
-            while (Client.socket.isConnected()) {
-
-            }
-        });
+ 
 
     }
 
-    public void Reset() {
-        if (Client.socket != null) {
-            if (Client.socket.isConnected()) {
-                Client.Stop();
-            }
+   public class IncomingReader implements Runnable
+    {
+       @Override
+       public void run()
+       {
+        String[] dataset;
+        String stream, done ="Done", connect = "Connect", disconnect = "Disconnect", chat = "Chat";
+        
+        try
+        {
+            while((stream = reader.readLine()) != null)
+            {
+                dataset = stream.split(":");
+                if (dataset[2].equals(chat))
+                {
+                   jTextArea2.append(dataset[0] + ":" +dataset[1] + "\n");
+                   jTextArea2.setCaretPosition(jTextArea2.getDocument().getLength());
+                }
+                else if (dataset[2].equals(connect))
+                {
+                    jTextArea2.removeAll();
+                    clientAdd(dataset[0]);
+                }
+                else if (dataset[2].equals(disconnect))
+                {
+                    clientRemove(dataset[0]);
+                }
+                    //clients.setText("");
+                    writeclients();
+                    clients.clear();
+                }
+                
+            }catch(Exception e) {}
+    
         }
-        btn_connect.setEnabled(true);
-
-
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

@@ -12,8 +12,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import static java.lang.Thread.sleep;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.event.EventListenerList;
 
 /**
  *
@@ -22,15 +25,17 @@ import java.util.logging.Logger;
 public class SClient {
 
     int id;
-    public String name = "NoName";
+    public String name = "";
     Socket soket;
     ObjectOutputStream sOutput;
     ObjectInputStream sInput;
     Listen listenThread;
     PairingThread pairThread;
+
     SClient rival;
 
     public boolean paired = false;
+    public boolean paired2 = false;
 
     public SClient(Socket gelenSoket, int id) {
         this.soket = gelenSoket;
@@ -72,6 +77,7 @@ public class SClient {
                     switch (received.type) {
                         case Name:
                             TheClient.name = received.content.toString();
+                            // isim verisini gönderdikten sonra eşleştirme işlemine başla
                             TheClient.pairThread.start();
                             break;
                         case Disconnect:
@@ -81,6 +87,7 @@ public class SClient {
                             break;
                         case Selected:
                             Server.Send(TheClient.rival, received);
+
                             break;
                         case Bitis:
                             break;
@@ -103,49 +110,54 @@ public class SClient {
     class PairingThread extends Thread {
 
         SClient TheClient;
+        public ArrayList<SClient> crival;
 
         PairingThread(SClient TheClient) {
             this.TheClient = TheClient;
+            this.crival = new ArrayList<>();
         }
 
         public void run() {
             while (TheClient.soket.isConnected() && TheClient.paired == false) {
                 try {
 
-            //        Server.pairTwo.acquire(1);
+                    //client eğer eşleşmemişse gir
                     if (!TheClient.paired) {
-                        SClient crival = null;
+                        //  List<SClient> crival = new ArrayList<>();
 
-                        while (crival == null && TheClient.soket.isConnected()) {
-
+                        while (TheClient.soket.isConnected()) {
+                            //liste içerisinde eş arıyor
                             for (SClient clnt : Server.Clients) {
+                                  System.out.println("TheClient rival name " + TheClient.rival.name);
                                 if (TheClient != clnt && clnt.rival == null) {
-//
-                                    crival = clnt;
-                                    crival.paired = true;
-                                    crival.rival = TheClient;
-                                    TheClient.rival = crival;
-                                    TheClient.paired = true;
+                                    //eşleşme sağlandı ve gerekli işaretlemeler yapıldı
+                                    for (int i = 0; i < crival.size(); i++) {
+
+                                        crival.add(clnt);
+                                        //     crival.paired = true;
+                                        crival.add(TheClient);
+                                        TheClient.rival = crival.set(id, clnt);
+                                        TheClient.paired = true;
+
+                                    }
+
                                     break;
                                 }
                             }
-
                             sleep(1000);
                         }
 
                         Message msg1 = new Message(Message.Message_Type.RivalConnected);
                         msg1.content = TheClient.name;
                         Server.Send(TheClient.rival, msg1);
+                        System.out.println("TheClient name 22222 " + TheClient.name);
 
                         Message msg2 = new Message(Message.Message_Type.RivalConnected);
                         msg2.content = TheClient.rival.name;
+                        System.out.println("TheClient rival name " + TheClient.rival.name);
                         Server.Send(TheClient, msg2);
-
- 
                     }
-
-                    Server.pairTwo.release(1);
-
+                    //                   Server.pairTwo.release(3);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(PairingThread.class.getName()).log(Level.SEVERE, null, ex);
                 }

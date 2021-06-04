@@ -52,8 +52,6 @@ public class Server {
     public static ServerThread runThread;
 
     public static ArrayList<SClient> Clients = new ArrayList<>();
-
-    //semafor nesnesi
     public static Semaphore pairTwo = new Semaphore(2, true);
 
     public static void Start(int openport) {
@@ -84,6 +82,10 @@ public class Server {
             Logger.getLogger(SClient.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    static void Send(SClient[] rival, Message received) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
