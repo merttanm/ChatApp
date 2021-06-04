@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import chatappclient.Client;
 import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -152,9 +153,9 @@ public class HomaPageChatApp extends javax.swing.JFrame {
         jTextArea2 = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         btn_connect1 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -169,7 +170,7 @@ public class HomaPageChatApp extends javax.swing.JFrame {
                 txt_nameActionPerformed(evt);
             }
         });
-        getContentPane().add(txt_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 100, 30));
+        getContentPane().add(txt_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 100, 30));
 
         btn_connect.setBackground(new java.awt.Color(255, 0, 0));
         btn_connect.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 12)); // NOI18N
@@ -179,14 +180,14 @@ public class HomaPageChatApp extends javax.swing.JFrame {
                 btn_connectActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_connect, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 330, 120, 30));
+        getContentPane().add(btn_connect, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 330, 120, 30));
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 130, 180, 190));
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 100, 30));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 130, 180, 190));
+        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 100, 30));
 
         jButton1.setBackground(new java.awt.Color(255, 0, 0));
         jButton1.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 12)); // NOI18N
@@ -196,36 +197,30 @@ public class HomaPageChatApp extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, 160, 30));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 60, 160, 30));
 
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
         jScrollPane3.setViewportView(jTextArea2);
 
-        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 180, 190));
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 180, 190));
 
         jLabel3.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 0, 0));
         jLabel3.setText("Chat Odaları");
         jLabel3.setToolTipText("");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 110, 100, 20));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 110, 100, 20));
 
         jLabel4.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 0, 0));
         jLabel4.setText("Çevrimiçi Üyeler");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, -1, -1));
-
-        jLabel5.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel5.setText("Nick");
-        jLabel5.setToolTipText("");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, -1, 20));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 110, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 51, 51));
         jLabel1.setText("Oda ismi");
         jLabel1.setToolTipText("");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 60, 30));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 60, 30));
 
         btn_connect1.setBackground(new java.awt.Color(255, 0, 0));
         btn_connect1.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 12)); // NOI18N
@@ -235,7 +230,13 @@ public class HomaPageChatApp extends javax.swing.JFrame {
                 btn_connect1ActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_connect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, 160, 30));
+        getContentPane().add(btn_connect1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, 160, 30));
+
+        jLabel6.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel6.setText("Nick");
+        jLabel6.setToolTipText("");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 20));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -257,13 +258,32 @@ public class HomaPageChatApp extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_nameActionPerformed
 
     private void btn_connect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_connect1ActionPerformed
-
-        Client.Start("127.0.0.1", 2000);
-        //başlangıç durumları
-        // lbl_gamer1.setIcon(icons_left[0]);
-        btn_connect1.setEnabled(false);
-        txt_name.setEnabled(false);
-
+ if(isConnected == false)
+        {
+            Clientname = txt_name.getText();
+            txt_name.setEditable(false);
+            
+            try
+            {
+                    S = new Socket(address, port_number);
+                    InputStreamReader streamreader = new InputStreamReader(S.getInputStream());
+                    reader = new BufferedReader(streamreader);
+                    writer = new PrintWriter(S.getOutputStream());
+                    writer.println(Clientname + ":the client is connected: client");
+                    writer.flush();
+                    isConnected = true;
+            }
+             catch(Exception e)
+             {
+                 jTextArea2.append("Cannot connect to the server at this moment! Please try again later!! \n");
+                 txt_name.setEditable(true);
+             }
+            ListenThread();
+            
+        } else if (isConnected == true)
+        {
+                jTextArea2.append("You are already connected to the server. \n");
+        }
 
     }//GEN-LAST:event_btn_connect1ActionPerformed
 
@@ -317,7 +337,7 @@ public class HomaPageChatApp extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     public javax.swing.JTextArea jTextArea1;

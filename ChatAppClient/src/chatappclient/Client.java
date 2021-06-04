@@ -20,56 +20,7 @@ import app.HomaPageChatApp;
  * @author INSECT
  */
 // serverdan gelecek mesajları dinleyen thread
-class Listen extends Thread {
 
-    public void run() {
-        
-        while (Client.socket.isConnected()) {
-            try {
-
-                Message received = (Message) (sInput.readObject());
-
-                switch (received.type) {
-                    case Name:
-                        break;
-                    case RivalConnected:
-                        String name = received.content.toString();
-                        //         HomaPageChatApp.ThisGame.txt_rival_name.setText(name);
-                        //           HomaPageChatApp.ThisGame.btn_pick.setEnabled(true);
-                        //                HomaPageChatApp.ThisGame.btn_send_message.setEnabled(true);
-                        //    HomaPageChatApp.ThisGame.tmr_slider.start();
-
-                        HomaPageChatApp.ThisGame.jTextArea2.setText(received.content.toString());
-
-                        break;
-                    case Disconnect:
-                        break;
-                    case Text:
-                        //             HomaPageChatApp.ThisGame.txt_receive.setText(received.content.toString());
-                        break;
-                    case Selected:
-                        HomaPageChatApp.ThisGame.RivalSelection = (int) received.content;
-
-                        break;
-
-                    case Bitis:
-                        break;
-
-                }
-
-            } catch (IOException ex) {
-
-                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                break;
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                //Client.Stop();
-                break;
-            }
-        }
-
-    }
-}
 
 public class Client {
 
@@ -79,7 +30,7 @@ public class Client {
 
     public static ObjectOutputStream sOutput;
 
-    public static Listen listenMe;
+
 
     public static void Start(String ip, int port) {
         try {
@@ -90,12 +41,10 @@ public class Client {
             Client.sInput = new ObjectInputStream(Client.socket.getInputStream());
             // output stream
             Client.sOutput = new ObjectOutputStream(Client.socket.getOutputStream());
-            Client.listenMe = new Listen();
-            Client.listenMe.start();
 
             //ilk mesaj olarak isim gönderiyorum
             Message msg = new Message(Message.Message_Type.Name);
-            msg.content = HomaPageChatApp.ThisGame.txt_name.getText();
+     //       msg.content = HomaPageChatApp.ThisGame.txt_name.getText();
             Client.Send(msg);
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
@@ -106,7 +55,7 @@ public class Client {
     public static void Stop() {
         try {
             if (Client.socket != null) {
-                Client.listenMe.stop();
+
                 Client.socket.close();
                 Client.sOutput.flush();
                 Client.sOutput.close();
