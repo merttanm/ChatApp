@@ -17,26 +17,26 @@ import java.util.Iterator;
  *
  * @author MERT
  */
-public class FrmServer extends javax.swing.JFrame {
+public class ChatAppServer extends javax.swing.JFrame {
 
     /**
      * Creates new form FrmServer
      */
     ArrayList clientOutputStreams;
-    ArrayList<String> users;
+    ArrayList<String> username;
 
     public class ClientHandler implements Runnable {
 
-        BufferedReader reader;
-        Socket S;
+        BufferedReader bufferReader;
+        Socket SSocket;
         PrintWriter client;
 
         public ClientHandler(Socket clientSocket, PrintWriter user) {
             client = user;
             try {
-                S = clientSocket;
-                InputStreamReader isReader = new InputStreamReader(S.getInputStream());
-                reader = new BufferedReader(isReader);
+                SSocket = clientSocket;
+                InputStreamReader isReader = new InputStreamReader(SSocket.getInputStream());
+                bufferReader = new BufferedReader(isReader);
             } catch (Exception e) {
                 jTextArea1.append("Unexpected error. . . \n");
             }
@@ -47,37 +47,41 @@ public class FrmServer extends javax.swing.JFrame {
          */
         @Override
         public void run() {
-            String message, chat = "Chat", connect = "Connect", disconnect = "Disconnect";
+            String message;
+            String chat = "Chat";
+            String disconnect = "Disconnect";
+            String connect = "Connect";
+            String room = "Room";
             String[] dataset;
 
             try {
-                while ((message = reader.readLine()) != null) {
-                    jTextArea1.append("recieved: " + message + "\n");
+                while ((message = bufferReader.readLine()) != null) {
+                    jTextArea1.append("Online:  " + message);
                     dataset = message.split(":");
 
                     for (String token : dataset) {
                         jTextArea1.append(token + "\n");
                     }
                     if (dataset[2].equals(connect)) {
-                        tellEveryone((dataset[0] + ":" + dataset[1] + ":" + chat));
+                        callClients((dataset[0] + ":" + dataset[1] + ":" + chat));
                     } else if (dataset[2].equals(disconnect)) {
-                        tellEveryone((dataset[0] + ":is disconnected" + ":" + chat));
+                        callClients((dataset[0] + ":is disconnected" + ":" + chat));
                         clientRemove(dataset[0]);
                     } else if (dataset[2].equals(chat)) {
-                        tellEveryone(message);
-                    } else {
-                        jTextArea1.append("the conditions are not met. \n");
+                        callClients(message);
                     }
+                    /*else {
+                        jTextArea1.append("the conditions are not met. \n");
+                    }*/
                 }
             } catch (Exception e) {
-                jTextArea1.append("Lost a connection! \n");
                 e.printStackTrace();
                 clientOutputStreams.remove(client);
             }
         }
     }
 
-    public FrmServer() {
+    public ChatAppServer() {
         initComponents();
     }
 
@@ -91,10 +95,9 @@ public class FrmServer extends javax.swing.JFrame {
     private void initComponents() {
 
         btn_connect1 = new javax.swing.JButton();
-        btn_connect2 = new javax.swing.JButton();
-        btn_connect3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        btn_connect4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,44 +110,31 @@ public class FrmServer extends javax.swing.JFrame {
             }
         });
 
-        btn_connect2.setBackground(new java.awt.Color(255, 0, 0));
-        btn_connect2.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 12)); // NOI18N
-        btn_connect2.setText("Stop");
-        btn_connect2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_connect2ActionPerformed(evt);
-            }
-        });
-
-        btn_connect3.setBackground(new java.awt.Color(255, 0, 0));
-        btn_connect3.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 12)); // NOI18N
-        btn_connect3.setText("Online Kullanıcılar");
-        btn_connect3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_connect3ActionPerformed(evt);
-            }
-        });
-
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
+
+        btn_connect4.setBackground(new java.awt.Color(255, 0, 0));
+        btn_connect4.setFont(new java.awt.Font("Bell Gothic Std Black", 1, 12)); // NOI18N
+        btn_connect4.setText("Stop");
+        btn_connect4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_connect4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_connect2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_connect1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(btn_connect3)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_connect4, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -153,12 +143,10 @@ public class FrmServer extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_connect1)
-                    .addComponent(btn_connect3))
+                    .addComponent(btn_connect4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(btn_connect2)
-                .addGap(20, 20, 20))
+                .addGap(63, 63, 63))
         );
 
         pack();
@@ -169,16 +157,22 @@ public class FrmServer extends javax.swing.JFrame {
         Thread starter = new Thread(new ServerStart());
         starter.start();
 
-        jTextArea1.append("Server has started!! \n");
+        jTextArea1.append("Server açıldı!! \n");
     }//GEN-LAST:event_btn_connect1ActionPerformed
 
-    private void btn_connect2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_connect2ActionPerformed
+    private void btn_connect4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_connect4ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btn_connect2ActionPerformed
+        try {
+            Thread.sleep(6999);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
 
-    private void btn_connect3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_connect3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_connect3ActionPerformed
+        callClients("Server: Chat App Serveri Durduruldu....  \n");
+        jTextArea1.append("Chat App Serveri Durduruldu....  \n");
+        jTextArea1.setText("");
+
+    }//GEN-LAST:event_btn_connect4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -198,27 +192,28 @@ public class FrmServer extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmServer.class
+            java.util.logging.Logger.getLogger(ChatAppServer.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmServer.class
+            java.util.logging.Logger.getLogger(ChatAppServer.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmServer.class
+            java.util.logging.Logger.getLogger(ChatAppServer.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmServer.class
+            java.util.logging.Logger.getLogger(ChatAppServer.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmServer().setVisible(true);
+                new ChatAppServer().setVisible(true);
             }
         });
     }
@@ -228,7 +223,7 @@ public class FrmServer extends javax.swing.JFrame {
         @Override
         public void run() {
             clientOutputStreams = new ArrayList();
-            users = new ArrayList();
+            username = new ArrayList();
 
             try {
                 ServerSocket serverS = new ServerSocket(1111);
@@ -240,42 +235,41 @@ public class FrmServer extends javax.swing.JFrame {
 
                     Thread listener = new Thread(new ClientHandler(clientS, writer));
                     listener.start();
-                    jTextArea1.append("Got a connection. \n");
                 }
             } catch (Exception e) {
-                jTextArea1.append("There is an error in creating a connection.\n");
+
             }
         }
     }
 
-    public void clientAdd(String dataset) {
+    public void addToClients(String dataset) {
         String message, add = ": :Connect", done = "Server: :Done", name = dataset;
         jTextArea1.append("Before " + name + "added. \n");
-        users.add(name);
+        username.add(name);
         jTextArea1.append("After " + name + " added. \n");
-        String[] temperoryList = new String[(users.size())];
-        users.toArray(temperoryList);
+        String[] temperoryList = new String[(username.size())];
+        username.toArray(temperoryList);
 
         for (String token : temperoryList) {
             message = (token + add);
-            tellEveryone(message);
+            callClients(message);
         }
-        tellEveryone(done);
+        callClients(done);
     }
 
     public void clientRemove(String dataset) {
         String message, add = " : :Connect", done = "Server: :Done", name = dataset;
-        users.remove(name);
-        String[] temperoryList = new String[(users.size())];
-        users.toArray(temperoryList);
+        username.remove(name);
+        String[] temperoryList = new String[(username.size())];
+        username.toArray(temperoryList);
         for (String token : temperoryList) {
             message = (token + add);
-            tellEveryone(message);
+            callClients(message);
         }
-        tellEveryone(done);
+        callClients(done);
     }
 
-    public void tellEveryone(String message) {
+    public void callClients(String message) {
         Iterator it = clientOutputStreams.iterator();
 
         while (it.hasNext()) {
@@ -286,15 +280,14 @@ public class FrmServer extends javax.swing.JFrame {
                 writer.flush();
                 jTextArea1.setCaretPosition(jTextArea1.getDocument().getLength());
             } catch (Exception e) {
-                jTextArea1.append("Error!! \n");
+                jTextArea1.append("Hata aldınız!! \n");
             }
         }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btn_connect1;
-    public javax.swing.JButton btn_connect2;
-    public javax.swing.JButton btn_connect3;
+    public javax.swing.JButton btn_connect4;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
