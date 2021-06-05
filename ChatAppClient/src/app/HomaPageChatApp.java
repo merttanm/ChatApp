@@ -57,7 +57,7 @@ public class HomaPageChatApp extends javax.swing.JFrame {
     }
 
     public void sendDisconnect() {
-        String bye = (clientToNames + ": : Bağlı Değil...");
+        String bye = (clientToNames + ": :Artık Bağlı Değil...");
         {
             try {
                 printWriter.println(bye);
@@ -233,7 +233,7 @@ public class HomaPageChatApp extends javax.swing.JFrame {
                 InputStreamReader streamreader = new InputStreamReader(SSocket.getInputStream());
                 bufferReader = new BufferedReader(streamreader);
                 printWriter = new PrintWriter(SSocket.getOutputStream());
-                printWriter.println(clientToNames + ":the client is connected: client");
+                printWriter.println(clientToNames + " :Client bağlı : client ");
                 printWriter.flush();
                 connected = true;
                 txt_name.setEnabled(false);
@@ -245,7 +245,6 @@ public class HomaPageChatApp extends javax.swing.JFrame {
         } else if (connected == true) {
             jTextArea2.append("Sunucuya zaten bağlısınız. \n");
         }
-
 
     }//GEN-LAST:event_btn_connect1ActionPerformed
 

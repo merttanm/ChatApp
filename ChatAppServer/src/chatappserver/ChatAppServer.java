@@ -65,7 +65,7 @@ public class ChatAppServer extends javax.swing.JFrame {
                     if (dataset[2].equals(connect)) {
                         callClients((dataset[0] + ":" + dataset[1] + ":" + chat));
                     } else if (dataset[2].equals(disconnect)) {
-                        callClients((dataset[0] + ":is disconnected" + ":" + chat));
+                        callClients((dataset[0] + ":Artık bağlı değil" + ":" + chat));
                         clientRemove(dataset[0]);
                     } else if (dataset[2].equals(chat)) {
                         callClients(message);
