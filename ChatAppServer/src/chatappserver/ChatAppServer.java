@@ -25,13 +25,13 @@ public class ChatAppServer extends javax.swing.JFrame {
     ArrayList clientOutputStreams;
     ArrayList<String> username;
 
-    public class ClientHandler implements Runnable {
+    public class Client implements Runnable {
 
         BufferedReader bufferReader;
         Socket SSocket;
         PrintWriter client;
 
-        public ClientHandler(Socket clientSocket, PrintWriter user) {
+        public Client(Socket clientSocket, PrintWriter user) {
             client = user;
             try {
                 SSocket = clientSocket;
@@ -233,7 +233,7 @@ public class ChatAppServer extends javax.swing.JFrame {
                     PrintWriter writer = new PrintWriter(clientS.getOutputStream());
                     clientOutputStreams.add(writer);
 
-                    Thread listener = new Thread(new ClientHandler(clientS, writer));
+                    Thread listener = new Thread(new Client(clientS, writer));
                     listener.start();
                 }
             } catch (Exception e) {
@@ -276,7 +276,7 @@ public class ChatAppServer extends javax.swing.JFrame {
             try {
                 PrintWriter writer = (PrintWriter) it.next();
                 writer.println(message);
-                jTextArea1.append("Sending message to the client: " + message + "\n");
+                jTextArea1.append("Client mesajı: " + message + "\n");
                 writer.flush();
                 jTextArea1.setCaretPosition(jTextArea1.getDocument().getLength());
             } catch (Exception e) {

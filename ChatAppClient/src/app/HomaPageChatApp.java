@@ -36,8 +36,8 @@ public class HomaPageChatApp extends javax.swing.JFrame {
     public static BufferedReader bufferReader;
 
     public void ListenThread() {
-        Thread IncomingReader = new Thread(new IncomingReader());
-        IncomingReader.start();
+        Thread PClient = new Thread(new PClient());
+        PClient.start();
     }
 
     public void removeToClients(String data) {
@@ -48,7 +48,7 @@ public class HomaPageChatApp extends javax.swing.JFrame {
         clients.add(data);
     }
 
-    public void writeclients() {
+    public void writeToClients() {
         String[] temperoryList = new String[(clients.size())];
         clients.toArray(temperoryList);
         for (String token : temperoryList) {
@@ -82,12 +82,13 @@ public class HomaPageChatApp extends javax.swing.JFrame {
         initComponents();
     }
 
-    public class IncomingReader implements Runnable {
+    public class PClient implements Runnable {
 
         @Override
         public void run() {
-            String[] display;
+
             String stream;
+            String[] display;
             String connect = "Connect";
             String disconnect = "Disconnect";
             String chat = "Chat";
@@ -105,8 +106,7 @@ public class HomaPageChatApp extends javax.swing.JFrame {
                     } else if (display[2].equals(disconnect)) {
                         removeToClients(display[0]);
                     }
-                    //clients.setText("");
-                    writeclients();
+                    writeToClients();
                     clients.clear();
                 }
 
